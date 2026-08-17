@@ -1,5 +1,29 @@
 package io.github.formatter;
 
+import java.util.Objects;
+
+/**
+ * Utility class for formatting durations expressed in milliseconds.
+ *
+ * <p>The formatter supports long and short output formats and omits
+ * zero-valued time units from the result.
+ *
+ * <p>Examples:
+ * <pre>{@code
+ * DurationFormatter.format(10_145);
+ * // "10 seconds"
+ *
+ * DurationFormatter.format(3_214_000);
+ * // "53 minutes 34 seconds"
+ *
+ * DurationFormatter.format(7_439_000, DurationFormat.SHORT);
+ * // "2h 3m 59s"
+ * }</pre>
+ *
+ * <p>Milliseconds that do not form a complete second are truncated.
+ *
+ * <p>This class is stateless and thread-safe.
+ */
 public final class DurationFormatter {
 
     private static final long MILLISECONDS_PER_SECOND = 1_000;
@@ -11,30 +35,34 @@ public final class DurationFormatter {
     }
 
     /**
-     * Formats a duration using the long format.
+     * Formats a duration using {@link DurationFormat#LONG}.
      *
-     * @param milliseconds duration in milliseconds
-     * @return formatted duration
-     * @throws IllegalArgumentException if milliseconds is negative
+     * @param milliseconds duration in milliseconds; must not be negative
+     * @return the formatted duration
+     * @throws IllegalArgumentException if the duration is negative
      */
     public static String format(long milliseconds) {
         return format(milliseconds, DurationFormat.LONG);
     }
 
     /**
-     * Formats a duration using the requested format.
+     * Formats a duration using the specified output format.
      *
-     * @param milliseconds duration in milliseconds
-     * @param format desired output format
-     * @return formatted duration
-     * @throws IllegalArgumentException if milliseconds is negative
-     * @throws NullPointerException if format is null
+     * <p>Milliseconds are truncated to complete seconds and zero-valued
+     * units are omitted.
+     *
+     * @param milliseconds duration in milliseconds; must not be negative
+     * @param format output format; must not be {@code null}
+     * @return the formatted duration
+     * @throws IllegalArgumentException if the duration is negative
+     * @throws NullPointerException if {@code format} is {@code null}
      */
     public static String format(
             long milliseconds,
             DurationFormat format) {
 
         validateMilliseconds(milliseconds);
+        Objects.requireNonNull(format, "format must not be null");
 
         DurationComponents duration =
                 DurationComponents.fromMilliseconds(milliseconds);

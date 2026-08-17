@@ -117,4 +117,13 @@ class DurationFormatterTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Duration cannot be negative: -1");
     }
+
+    @Test
+    void shouldRejectNullFormat() {
+        assertThatThrownBy(() ->
+                DurationFormatter.format(1_000, null)
+        )
+                .isInstanceOf(NullPointerException.class)
+                .hasMessage("format must not be null");
+    }
 }
