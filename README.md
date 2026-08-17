@@ -1,14 +1,21 @@
-# Time Formatter Library
+# Duration Formatter Library
 
-A small, framework-independent Java library for formatting durations represented
-as milliseconds.
+A small, production-oriented Java 21 library for converting durations expressed
+in milliseconds into readable text.
 
-The library converts a duration into a human-readable representation using
-hours, minutes, and seconds, with support for both long and short output formats.
+The library supports:
+
+- Seconds
+- Minutes and seconds
+- Hours, minutes and seconds
+- Hiding zero-valued units
+- Long and short output formats
+- Millisecond truncation
+- Validation of invalid negative durations
 
 ## Requirements
 
-- Java 21
+- Java 21+
 - Maven 3.9+
 
 ## Build
